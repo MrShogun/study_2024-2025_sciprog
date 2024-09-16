@@ -17,7 +17,7 @@ FILTERS += --filter pandoc/filters/pandoc_fignos.py --filter pandoc/filters/pand
 # FILTERS += --filter pandoc-crossref
 ###
 PDF_ENGINE += --pdf-engine=xelatex --pdf-engine-opt=--shell-escape
-OPTIONS += --number-sections
+OPTIONS += --number-sections -f markdown -t latex -s
 BIB_OPTIONS = --citeproc
 
 
