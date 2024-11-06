@@ -7,7 +7,7 @@ author:
   - Николаев Дмитрий Иванович, НПМмд-02-24
 institute:
   - Российский университет дружбы народов имени Патриса Лумумбы, Москва, Россия
-date: 7 сентября 2024
+date: 5 октября 2024
 
 ## i18n babel
 babel-lang: russian
@@ -27,147 +27,141 @@ header-includes:
  - '\makeatother'
 ---
 
+# Прагматика выполнения
+
+- Повышение навыков владения Octave;
+- Повышение навыков владения Julia;
+- Применение полученных знаний на практике в дальнейшем.
+
 # Цели
 
-Освоить на практике применение режима однократного гаммирования.
+Изучение методов вычислений и визуализации на языках программирования Octave и Julia.
 
 # Задачи
 
-1. Реализовать режим однократного гаммирования;
-2. Найти зашифрованный текст по известному исходному тексту и ключу;
-3. Найти ключ по известному зашифрованному и исходному тексту.
+1. Построение параметрических и полярных графиков.
+2. Работа с неявными функциями и вычисление касательных.
+3. Выполнение операций с комплексными числами.
+4. Использование специальных функций, таких как гамма--функция.
 
 # Выполнение работы
 
-## Создание словаря
+## Octave. Построение параметрических графиков (1/2)
 
-```Julia
-const S = """абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПР
-СТУФХЦЧШЩЪЫЬЭЮЯ0123456789., !-"""
-const N = length(S)
+![Построение параметрических графиков на Octave](image/1.png){#fig:001 width=70%}
 
-Dictionary = Dict(zip(S, 1:length(S)))
-# Сделаем словарь с ключом и значением наоборот
-Dictionary2 = Dict(zip(values(Dictionary), keys(Dictionary)))
-```
+## Octave. Построение параметрических графиков (2/2)
 
-## Получение шифротекста по известному исходному тексту и ключу 1
+![Параметрические графики на Octave](image/cycloid.png){#fig:cycloid width=70%}
 
-```Julia
-function Gamma_Find_Encrypted_Text(Source_Message::String, Key::String)::String
-    n = length(Source_Message)  # Длина исходного сообщения
-    println("Исходное сообщение - ", Source_Message)
-    println("Ключ - ", Key)
-    n != length(Key) ? println("Размерности ключа и сообщения не равны") : skip
-    Source_Code = []
-    Key_Code = []
-    for i in Source_Message
-        push!(Source_Code, Dictionary[i])
-    end
-    for i in Key
-        push!(Key_Code, Dictionary[i])
-    end
-    println("Код исходного сообщения - ", Source_Code)
-```
+## Octave. Построение графиков в полярных координатах (1/2)
 
-## Получение шифротекста по известному исходному тексту и ключу 2
+![Построение графиков в полярных координатах на Octave (1/2)](image/2.png){#fig:002 width=70%}
 
-```Julia
-    println("Код ключа - ", Key_Code)
-    Encrypted_Code = []   # Код зашифрованного сообщения
-    for i in range(1, n)
-        a = Source_Code[i] + Key_Code[i]
-        a > N ? a %= N : skip
-        push!(Encrypted_Code, a)
-    end
-    println("Код зашифрованного сообщения - ", Encrypted_Code)
-    Encrypted_Message = ""
-    for i in Encrypted_Code
-        Encrypted_Message *= Dictionary2[i]
-    end
-    println("Зашифрованное сообщение - ", Encrypted_Message)
-```
+## Octave. Построение графиков в полярных координатах (2/2)
 
-## Получение шифротекста по известному исходному тексту и ключу 3
+![Построение графиков в полярных координатах на Octave (2/2)](image/3.png){#fig:003 width=70%}
 
-```Julia
-    Decrypted_Code = []   # Код зашифрованного сообщения
-    for i in range(1, n)
-        a = Encrypted_Code[i] - Key_Code[i]
-        a <= 0 ? a += N : skip
-        push!(Decrypted_Code, a)
-    end
-    println("Код дешифрованного сообщения - ", Decrypted_Code)
-    Decrypted_Message = ""
-    for i in Decrypted_Code
-        Decrypted_Message *= Dictionary2[i]
-    end
-    println("Дешифрованное сообщение - ", Decrypted_Message)
-    return Encrypted_Message
-```
+## Octave. График улитки Паскаля в декартовых координатах
 
-## Получение ключа по известному исходному тексту и шифротексту 1
+![График улитки Паскаля в декартовых координатах на Octave](image/limacon.png){#fig:limacon width=70%}
 
-```Julia
-function Gamma_Find_Key_Text(Source_Message::String, Encrypted_Message::String)::String
-    n = length(Source_Message)  # Длина исходного сообщения
-    println("Исходное сообщение - ", Source_Message)
-    println("Зашифрованное сообщение - ", Encrypted_Message)
-    n != length(Encrypted_Message) ? println("Несоответсвие размерности исходного и зашифрованного сообщений") : skip
-    Source_Code = []
-    Encrypted_Code = []
-    for i in Source_Message
-        push!(Source_Code, Dictionary[i])
-    end
-    for i in Encrypted_Message
-        push!(Encrypted_Code, Dictionary[i])
-    end
-    println("Код исходного сообщения - ", Source_Code)
-```
+## Octave. График улитки Паскаля в полярных координатах
 
-## Получение ключа по известному исходному тексту и шифротексту 2
+![График улитки Паскаля в полярных координатах на Octave](image/limacon-polar.png){#fig:limaconpolar width=70%}
 
-```Julia
-    println("Код зашифрованного сообщения - ", Encrypted_Code)
-    Key_Code = []   # Код ключа
-    for i in range(1, n)
-        a = Encrypted_Code[i] - Source_Code[i]
-        a <= 0 ? a += N : skip
-        push!(Key_Code, a)
-    end
-    println("Код ключа - ", Key_Code)
-    Key = ""
-    for i in Key_Code
-        Key *= Dictionary2[i]
-    end
-    println("Ключ - ", Key)
-    return Key
-end
-```
+## Octave. Построение неявных функций (1/2)
 
-## Вызов функций
+![Построение неявных функций на Octave](image/4.png){#fig:004 width=70%}
 
-```Julia
-Source_Text = "С Новым Годом, друзья!"
-Given_Key = "АБВГДЕжзийклмнопрстуфх"
+## Octave. Построение неявных функций (2/2)
 
-Result_Encrypted_Message = Gamma_Find_Encrypted_Text(Source_Text, Given_Key) 
-println("Зашифрованное сообщение, имея исходный текст и ключ - ", Result_Encrypted_Message)
+![График неявной функции на Octave](image/impl1.png){#fig:impl1 width=70%}
 
-Result_Key = Gamma_Find_Key_Text(Source_Text, Result_Encrypted_Message)
-println("Ключ, имея исходный текст и зашифрованное сообщение - ", Result_Key)
+## Octave. Построение неявно заданной окружности (1/2)
 
-if Given_Key == Result_Key
-    println("Однократное гаммирование работает - успех!")
-else
-    println("Неудача")
-end
-```
+![Построение неявно заданной окружности и её касательной на Octave](image/5.png){#fig:005 width=70%}
 
-## Результат
+## Octave. Построение неявно заданной окружности (2/2)
 
-![Реализация однократного гаммирования](image/1.png){#fig:001 width=70%}
+![График окружности и её касательной на Octave](image/impl2.png){#fig:impl2 width=70%}
+
+## Octave. Операции с комплексными числами (1/3)
+
+![Операции с комплексными числами на Octave](image/6.png){#fig:006 width=70%}
+
+## Octave. Операции с комплексными числами (2/3)
+
+![Комплексные числа на графике на Octave](image/complex.png){#fig:complex width=70%}
+
+## Octave. Операции с комплексными числами (3/3)
+
+![Особенности операций с комплексными числами на Octave](image/7.png){#fig:007 width=70%}
+
+## Octave. Специальные функции (1/4)
+
+![Специальные функции на Octave 1](image/8.png){#fig:003 width=70%}
+
+## Octave. Специальные функции (2/4)
+
+![График гамма-функции на Octave 1](image/gamma.png){#fig:gamma width=70%}
+
+## Octave. Специальные функции (3/4)
+
+![Специальные функции на Octave 2](image/9.png){#fig:009 width=70%}
+
+## Octave. Специальные функции (4/4)
+
+![График гамма-функции на Octave 2](image/gamma2.png){#fig:gamma2 width=70%}
+
+## Julia. Построение параметрических графиков (1/2)
+
+![Построение параметрических графиков на Julia](image/10.png){#fig:010 width=70%}
+
+## Julia. Построение параметрических графиков (2/2)
+
+![Параметрические графики на Julia](image/fig1.png){#fig:graph1 width=70%}
+
+## Julia. Построение графиков в полярных координатах (1/2)
+
+![Построение графиков в полярных координатах на Julia](image/11.png){#fig:011 width=70%}
+
+## Julia. Построение графиков в полярных координатах (2/2)
+
+![График улитки Паскаля на Julia](image/fig2.png){#fig:graph2 width=70%}
+
+## Julia. Построение неявных функций (1/3)
+
+![Построение неявных функций на Julia](image/12.png){#fig:012 width=70%}
+
+## Julia. Построение неявных функций (2/3)
+
+![График неявной функции на Julia](image/fig3.png){#fig:graph3 width=70%}
+
+## Julia. Построение неявных функций (3/3)
+
+![График окружности со своей касательной на Julia](image/fig4.png){#fig:graph4 width=70%}
+
+## Julia. Операции с комплексными числами (1/2)
+
+![Операции с комплексными числами на Julia](image/13.png){#fig:013 width=70%}
+
+## Julia. Операции с комплексными числами (2/2)
+
+![Результат операций с комплексными числами на Julia](image/14.png){#fig:014 width=70%}
+
+## Julia. Специальные функции (1/3)
+
+![Специальные функции на Julia](image/15.png){#fig:015 width=70%}
+
+## Julia. Специальные функции (2/3)
+
+![График гамма-функции на Julia 1](image/fig5.png){#fig:graph5 width=70%}
+
+## Julia. Специальные функции (3/3)
+
+![График гамма-функции на Julia 2](image/fig6.png){#fig:graph6 width=70%}
 
 # Результаты
 
-По результатам работы, я освоил на практике применение режима однократного гаммирования.
+По результатам работы, я изучил методы вычислений и визуализации на языках программирования Octave и Julia.
