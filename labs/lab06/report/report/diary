@@ -1,0 +1,65 @@
+>> diary on
+>> n = [2:1:11]';
+>> a = 1 ./ (n .* (n+2));
+>> s = zeros(size(a));
+>> for i = 1:length(a)
+  s(i) = sum(a(1:i));
+end
+>> s
+s =
+
+   0.1250
+   0.1917
+   0.2333
+   0.2619
+   0.2827
+   0.2986
+   0.3111
+   0.3212
+   0.3295
+   0.3365
+
+>> plot(n,a,'o',n,s,'+')
+>> grid on
+>> legend('terms','partial sums')
+>> n = [1:1:1000];
+>> a = 1 ./ n;
+>> sum(a)
+ans = 7.4855
+>> function y = f(x)
+y = exp(x .^ 2) .* cos(x);
+end
+>> quad('f',0,pi/2)
+ans = 1.8757
+>> midpoint
+error: 'midpoint' undefined near line 1, column 1
+>> midpoint.m
+error: 'midpoint' undefined near line 1, column 1
+>> midpoint
+error: 'midpoint' undefined near line 1, column 1
+>> midpoint
+error: 'midpoint' undefined near line 1, column 1
+>> disp(midpoint)
+error: 'midpoint' undefined near line 1, column 6
+>> midpoint
+a = 0
+b = 1.5708
+n = 100
+dx = 0.015708
+msum = 0
+approx = 1.8758
+>> midpoint_v
+error: 'midpoint_v' undefined near line 1, column 1
+>> midpoint_v
+error: 'midpoint_v' undefined near line 1, column 1
+>> midpoint_v
+error: 'midpoint_v' undefined near line 1, column 1
+>> midpoint_v
+error: 'midpoint_v' undefined near line 1, column 1
+>> midpoint_v
+error: 'midpoint_v' undefined near line 1, column 1
+>> midpoint_v
+error: 'midpoint_v' undefined near line 1, column 1
+>> midpoint_v
+error: 'midpoint_v' undefined near line 1, column 1
+>> 
